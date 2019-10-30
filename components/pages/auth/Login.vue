@@ -18,21 +18,45 @@
                                         <div class="form-group">
                                             <input
                                                 type="email"
+                                                name="email"
                                                 v-model="user.email"
                                                 class="form-control form-control-user"
                                                 id="exampleInputEmail"
                                                 aria-describedby="emailHelp"
                                                 placeholder="Enter Email Address..."
+                                                :class="{ 'is-invalid': submitted && $v.user.email.$error }"
                                             />
+                                            <div
+                                                v-if="submitted && $v.user.email.$error"
+                                                class="invalid-feedback"
+                                            >
+                                                <span
+                                                    v-if="!$v.user.email.required"
+                                                >Email is required</span>
+                                                <span v-if="!$v.user.email.email">Email is invalid</span>
+                                            </div>
                                         </div>
                                         <div class="form-group">
                                             <input
                                                 type="password"
+                                                name="password"
                                                 v-model="user.password"
                                                 class="form-control form-control-user"
                                                 id="exampleInputPassword"
                                                 placeholder="Password"
+                                                :class="{ 'is-invalid': submitted && $v.user.password.$error }"
                                             />
+                                            <div
+                                                v-if="submitted && $v.user.password.$error"
+                                                class="invalid-feedback"
+                                            >
+                                                <span
+                                                    v-if="!$v.user.password.required"
+                                                >Password is required</span>
+                                                <span
+                                                    v-if="!$v.user.password.minLength"
+                                                >Password must be at least 6 characters</span>
+                                            </div>
                                         </div>
                                         <!-- <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
@@ -51,19 +75,6 @@
                                             class="btn btn-primary btn-user btn-block"
                                             @click="login"
                                         >Login</button>
-                                        <!-- <hr />
-                                        <a
-                                            href="index.html"
-                                            class="btn btn-google btn-user btn-block"
-                                        >
-                                            <i class="fab fa-google fa-fw"></i> Login with Google
-                                        </a>
-                                        <a
-                                            href="index.html"
-                                            class="btn btn-facebook btn-user btn-block"
-                                        >
-                                            <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                                        </a>-->
                                     </form>
                                     <hr />
                                     <!-- <div class="text-center">
@@ -97,13 +108,30 @@ export default {
             user: {
                 email: "",
                 password: ""
-            }
+            },
+            submitted: false
         };
+    },
+    validations: {
+        user: {
+            email: { required, email },
+            password: { required, minLength: minLength(6) }
+        }
     },
     methods: {
         login(e) {
             e.preventDefault();
-            console.log(this.user.email);
+            this.submitted = true;
+            // stop here if form is invalid
+            this.$v.$touch();
+            let data = {
+                email: this.user.email,
+                password: this.user.password
+            };
+            this.$store
+                .dispatch("login", { data })
+                .then(() => console.log("test"))
+                .catch(err => console.log(err));
         }
     }
 };
