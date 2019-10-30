@@ -212,10 +212,10 @@
                     aria-haspopup="true"
                     aria-expanded="false"
                 >
-                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">Valerie Luna</span>
+                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{user.name}}</span>
                     <img
                         class="img-profile rounded-circle"
-                        src="https://source.unsplash.com/QAB-WJcbgJk/60x60"
+                        :src="'https://ui-avatars.com/api/?name=' + user.name + '&w=196&h=196'"
                     />
                 </a>
                 <!-- Dropdown - User Information -->
@@ -252,6 +252,15 @@
 </template>
 <script>
 export default {
-    name: "Top"
+    name: "Top",
+    data() {
+        return {
+            user: {}
+        };
+    },
+    mounted() {
+        let userItem = localStorage.getItem("user");
+        this.user = JSON.parse(userItem);
+    }
 };
 </script>

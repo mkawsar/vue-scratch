@@ -2,6 +2,7 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');
 const { join } = require('path');
 const { VueLoaderPlugin } = require('vue-loader');
 const { HotModuleReplacementPlugin } = require('webpack');
+const webpack = require('webpack')
 
 
 module.exports = {
@@ -49,6 +50,11 @@ module.exports = {
 			title: 'Vue with Webpack',
 			favicon: join(__dirname, 'logo.png'),
 			template: join(__dirname, 'index.html')
-		})
+		}),
+		new webpack.DefinePlugin({
+			'process.env': {
+				ENDPOINT: '"http://localhost:8000/"',
+			}
+		}),
 	]
 }

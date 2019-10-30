@@ -12,7 +12,6 @@
                                 <div class="p-5">
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
-                                        <pre>{{user}}</pre>
                                     </div>
                                     <form class="user">
                                         <div class="form-group">
@@ -130,7 +129,7 @@ export default {
             };
             this.$store
                 .dispatch("login", { data })
-                .then(() => console.log("test"))
+                .then(() => this.$router.push("/"))
                 .catch(err => console.log(err));
         }
     }

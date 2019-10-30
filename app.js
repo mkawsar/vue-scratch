@@ -6,12 +6,10 @@ import Vuex from 'vuex'
 import Main from './components/Main.vue'
 import router from './router'
 import store from './stores'
-import config from './config';
 
 Vue.use(Vuelidate);
 Vue.use(Vuex);
 Vue.prototype.$http = axios;
-Vue.prototype.config = config;
 
 new Vue({
 	render: (createEl) => createEl(Main),

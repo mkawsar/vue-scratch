@@ -5,10 +5,7 @@
             <div class="sidebar-brand-icon rotate-n-15">
                 <i class="fas fa-laugh-wink"></i>
             </div>
-            <div class="sidebar-brand-text mx-3">
-                SB Admin
-                <sup>2</sup>
-            </div>
+            <div class="sidebar-brand-text mx-6">{{user.name}}</div>
         </a>
 
         <!-- Divider -->
@@ -44,16 +41,12 @@ export default {
     name: "Left",
     data() {
         return {
-            user: null,
-            activeClass: "active",
-            isActive: true
+            user: {}
         };
     },
-    computed: {
-        currentPage() {
-            return this.$route.path;
-        }
-    },
-    created: function() {}
+    mounted() {
+        let userItem = localStorage.getItem("user");
+        this.user = JSON.parse(userItem);
+    }
 };
 </script>
