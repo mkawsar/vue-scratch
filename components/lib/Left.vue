@@ -15,19 +15,19 @@
         <hr class="sidebar-divider my-0" />
 
         <!-- Nav Item - Dashboard -->
-        <li class="nav-item">
-            <router-link to="/" class="nav-link">
+        <router-link tag="li" :to="{name: 'home'}" class="nav-item">
+            <a class="nav-link">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Dashboard</span>
-            </router-link>
-        </li>
+            </a>
+        </router-link>
 
-        <li class="nav-item">
-            <router-link to="/about" class="nav-link">
+        <router-link tag="li" :to="{name: 'about'}" class="nav-item">
+            <a class="nav-link">
                 <i class="fas fa-user fa-tachometer-alt"></i>
                 <span>About</span>
-            </router-link>
-        </li>
+            </a>
+        </router-link>
 
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block" />
@@ -45,7 +45,8 @@ export default {
     data() {
         return {
             user: null,
-            activeClass: "active"
+            activeClass: "active",
+            isActive: true
         };
     },
     computed: {
