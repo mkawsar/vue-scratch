@@ -27,7 +27,6 @@ export default {
 		},
 
 		user({ commit }) {
-			console.log(this.state.token)
 			return new Promise((resolve, reject) => {
 				let url = process.env.ENDPOINT + 'api/v1/user';
 				axios.get(url, {
@@ -43,5 +42,23 @@ export default {
 					})
 			});
 		},
+
+		logout({ commit }) {
+			return new Promise((resolve, reject) => {
+				let url = process.env.ENDPOINT + 'api/v1/logout';
+				let token = localStorage.getItem('jwt');
+				let config = {
+					headers: { 'Authorization': `Bearer ${token}` }
+				};
+				axios.get(url, config)
+					.then(res => {
+						localStorage.clear();
+						resolve(res);
+					})
+					.catch(err => {
+						console.log(err);
+					})
+			});
+		}
 	}
 }

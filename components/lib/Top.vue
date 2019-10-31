@@ -241,6 +241,7 @@
                         href="#"
                         data-toggle="modal"
                         data-target="#logoutModal"
+                        @click="logout"
                     >
                         <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                         Logout
@@ -261,6 +262,15 @@ export default {
     mounted() {
         let userItem = localStorage.getItem("user");
         this.user = JSON.parse(userItem);
+    },
+    methods: {
+        logout(e) {
+            e.preventDefault();
+            this.$store
+                .dispatch("logout")
+                .then(() => this.$router.push("/login"))
+                .catch(err => console.log("err: ", err));
+        }
     }
 };
 </script>
