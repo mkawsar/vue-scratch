@@ -212,10 +212,10 @@
                     aria-haspopup="true"
                     aria-expanded="false"
                 >
-                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{user.name}}</span>
+                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{user.first_name}}</span>
                     <img
                         class="img-profile rounded-circle"
-                        :src="'https://ui-avatars.com/api/?name=' + user.name + '&w=196&h=196'"
+                        :src="'https://ui-avatars.com/api/?name=' + user.first_name + '&w=196&h=196'"
                     />
                 </a>
                 <!-- Dropdown - User Information -->
