@@ -21,7 +21,7 @@ export default {
 						resolve(res);
 					})
 					.catch(err => {
-						console.log(err)
+						reject(err.response.data.error)
 					})
 			});
 		},
@@ -45,19 +45,21 @@ export default {
 
 		logout({ commit }) {
 			return new Promise((resolve, reject) => {
-				let url = process.env.ENDPOINT + 'api/v1/logout';
-				let token = localStorage.getItem('jwt');
-				let config = {
-					headers: { 'Authorization': `Bearer ${token}` }
-				};
-				axios.get(url, config)
-					.then(res => {
-						localStorage.clear();
-						resolve(res);
-					})
-					.catch(err => {
-						console.log(err);
-					})
+				const token = localStorage.clear();
+				resolve(token);
+				// let url = process.env.ENDPOINT + 'api/v1/logout';
+				// let token = localStorage.getItem('jwt');
+				// let config = {
+				// 	headers: { 'Authorization': `Bearer ${token}` }
+				// };
+				// axios.get(url, config)
+				// 	.then(res => {
+				// 		localStorage.clear();
+				// 		resolve(res);
+				// 	})
+				// 	.catch(err => {
+				// 		console.log(err);
+				// 	})
 			});
 		}
 	}

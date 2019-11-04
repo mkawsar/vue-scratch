@@ -130,7 +130,7 @@ export default {
             this.$store
                 .dispatch("login", { data })
                 .then(() => this.$router.push("/"))
-                .catch(err => console.log(err));
+                .catch(err => this.$toastr.e(err, "Failed"));
         }
     }
 };
