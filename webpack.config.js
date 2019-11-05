@@ -2,7 +2,7 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');
 const { join } = require('path');
 const { VueLoaderPlugin } = require('vue-loader');
 const { HotModuleReplacementPlugin } = require('webpack');
-const webpack = require('webpack')
+const webpack = require('webpack');
 
 
 module.exports = {
@@ -57,4 +57,4 @@ module.exports = {
 			}
 		}),
 	]
-}
+};
