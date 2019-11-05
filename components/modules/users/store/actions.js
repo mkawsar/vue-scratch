@@ -3,7 +3,7 @@ export default {
 	profile({ commit }) {
 		return new Promise((resolve, reject) => {
 			let url = process.env.ENDPOINT + 'api/v1/user';
-			let token = localStorage.getItem('jwt');
+			let token = this.state.user.token;
 
 			axios.get(url, {
 				headers: {
@@ -16,7 +16,9 @@ export default {
 				.catch(err => {
 					reject(err.response);
 				})
-		})
-		console.log(process.env.ENDPOINT)
+		});
+	},
+	profileUpdate({ commit, state }, user) {
+		console.log(this.state.user.token)
 	}
 }

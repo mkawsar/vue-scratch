@@ -71,12 +71,18 @@ export default {
         this.$store
             .dispatch("userStore/profile")
             .then(res => (this.user = res))
-            .catch(err => console.log(err));
+            .catch(err => {
+                this.$toastr.e(err.data.message, "Failed");
+                localStorage.clear();
+                this.$router.push("/login");
+            });
     },
     methods: {
         update(e) {
             e.preventDefault();
-            console.log(this.user);
+            this.$store.dispatch("userStore/profileUpdate", {
+                data: this.user
+            });
         }
     }
 };
