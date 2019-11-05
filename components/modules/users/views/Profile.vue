@@ -1,7 +1,60 @@
 <template>
     <div class="container">
         <div class="row">
-            <p>Hello world</p>
+            <div class="col-xl-12 col-lg-12">
+                <div class="card shadow mb-4">
+                    <div class="card-header">
+                        <h6 class="m-0 font-weight-bold text-primary">{{ this.$route.meta.title }}</h6>
+                    </div>
+                    <div class="card-body">
+                        <form action="#" class="form-horizontal">
+                            <div class="form-group">
+                                <label for="firstName" class="control-label col-sm-3">First Name</label>
+                                <div class="col-sm-12">
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="exampleFirstName"
+                                        v-model="user.first_name"
+                                        placeholder="First Name"
+                                    />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="lastName" class="control-label col-sm-12">Last Name</label>
+                                <div class="col-sm-12">
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="last_name"
+                                        v-model="user.last_name"
+                                        placeholder="Last Name"
+                                    />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email" class="control-label col-sm-3">Email</label>
+                                <div class="col-sm-12">
+                                    <input
+                                        type="eamil"
+                                        class="form-control"
+                                        id="email"
+                                        v-model="user.email"
+                                        placeholder="Email"
+                                    />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <button class="btn btn-success" @click="update">Update</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -9,8 +62,22 @@
 <script>
 export default {
     name: "Profile",
+    data() {
+        return {
+            user: {}
+        };
+    },
     mounted() {
-        this.$store.dispatch("userStore/profile");
+        this.$store
+            .dispatch("userStore/profile")
+            .then(res => (this.user = res))
+            .catch(err => console.log(err));
+    },
+    methods: {
+        update(e) {
+            e.preventDefault();
+            console.log(this.user);
+        }
     }
 };
 </script>
