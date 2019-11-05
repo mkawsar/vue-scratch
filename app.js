@@ -5,7 +5,7 @@ import Vuex from 'vuex'
 import toastr from 'vue-toastr';
 
 import Main from './components/Main.vue'
-import router from './router'
+import router from './routes'
 import store from './stores'
 
 Vue.use(Vuelidate);
@@ -16,7 +16,8 @@ Vue.use(toastr, {
 Vue.prototype.$http = axios;
 
 const token = localStorage.getItem('jwt')
-if (token) {
+if (token)
+{
 	Vue.prototype.$http.defaults.headers.common['Authorization'] = token
 }
 
