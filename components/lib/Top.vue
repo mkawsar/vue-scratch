@@ -267,7 +267,7 @@ export default {
         logout(e) {
             e.preventDefault();
             this.$store
-                .dispatch("logout")
+                .dispatch("auth/logout")
                 .then(() => this.$router.push("/login"))
                 .catch(err => console.log("err: ", err));
         }

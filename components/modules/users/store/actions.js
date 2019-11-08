@@ -3,7 +3,7 @@ export default {
 	profile({ commit }) {
 		return new Promise((resolve, reject) => {
 			let url = process.env.ENDPOINT + 'api/v1/user';
-			let token = this.state.user.token;
+			let token = this.state.token;
 
 			axios.get(url, {
 				headers: {

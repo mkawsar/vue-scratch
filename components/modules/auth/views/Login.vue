@@ -128,7 +128,7 @@ export default {
                 password: this.user.password
             };
             this.$store
-                .dispatch("login", { data })
+                .dispatch("auth/login", { data })
                 .then(() => this.$router.push("/"))
                 .catch(err => this.$toastr.e(err, "Failed"));
         }

@@ -2,10 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../components/pages/Home.vue'
 import About from '../components/pages/about/About.vue'
-import Contact from '../components/pages/Contact.vue'
-import Login from '../components/pages/auth/Login.vue'
 
 import UserRoute from '../components/modules/users/router'
+import authRoute from '../components/modules/auth/routes'
 
 Vue.use(Router);
 
@@ -27,28 +26,11 @@ const baseRoute = [
 			title: 'About',
 			requireAuth: true
 		}
-	},
-	{
-		path: '/contact',
-		name: 'contact',
-		component: Contact,
-		meta: {
-			title: 'Contact',
-			requireAuth: true
-		}
-	},
-	{
-		path: '/login',
-		name: 'login',
-		component: Login,
-		meta: {
-			guest: true
-		}
 	}
 ];
 
 const routers = baseRoute.concat(
-	UserRoute,
+	UserRoute, authRoute,
 );
 
 const router = new Router({
@@ -60,46 +42,35 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-	if (to.matched.some(record => record.meta.requireAuth))
-	{
-		if (localStorage.getItem('jwt') == null)
-		{
+	if (to.matched.some(record => record.meta.requireAuth)) {
+		if (localStorage.getItem('jwt') == null) {
 			next({
 				path: '/login',
 				params: {
 					nextUrl: to.fullPath
 				}
 			});
-		} else
-		{
+		} else {
 			let user = JSON.parse(localStorage.getItem('user'))
-			if (to.matched.some(record => record.meta.is_admin))
-			{
-				if (user.is_admin == 1)
-				{
+			if (to.matched.some(record => record.meta.is_admin)) {
+				if (user.is_admin == 1) {
 					next()
 				}
-				else
-				{
+				else {
 					next({ name: 'home' })
 				}
-			} else
-			{
+			} else {
 				next()
 			}
 		}
-	} else if (to.matched.some(record => record.meta.guest))
-	{
-		if (localStorage.getItem('jwt') == null)
-		{
+	} else if (to.matched.some(record => record.meta.guest)) {
+		if (localStorage.getItem('jwt') == null) {
 			next()
 		}
-		else
-		{
+		else {
 			next({ name: 'home' })
 		}
-	} else
-	{
+	} else {
 		next()
 	}
 });
