@@ -83,10 +83,10 @@
                                         >Forgot Password?</a>
                                     </div>-->
                                     <div class="text-center">
-                                        <a
+                                        <router-link
+                                            :to="{name: 'register'}"
                                             class="small"
-                                            href="javascript:void(0)"
-                                        >Create an Account!</a>
+                                        >Create an Account!</router-link>
                                     </div>
                                 </div>
                             </div>
