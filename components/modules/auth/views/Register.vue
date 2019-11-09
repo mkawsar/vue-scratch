@@ -13,7 +13,7 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Registration!</h1>
                                     </div>
-                                    <form class="user">
+                                    <form class="user" @submit.prevent="submit">
                                         <div class="form-group">
                                             <input
                                                 type="text"
@@ -23,16 +23,13 @@
                                                 id="examplfirst_nameeInputEmail"
                                                 aria-describedby="first_name"
                                                 placeholder="First Name..."
-                                                :class="{ 'is-invalid': submitted && $v.user.first_name.$error }"
+                                                v-validate="'required'"
+                                                :class="{ 'is-invalid': submitted && errors.has('first_name') }"
                                             />
                                             <div
-                                                v-if="submitted && $v.user.first_name.$error"
+                                                v-if="submitted && errors.has('first_name')"
                                                 class="invalid-feedback"
-                                            >
-                                                <span
-                                                    v-if="!$v.user.first_name.required"
-                                                >First name is required</span>
-                                            </div>
+                                            >{{ errors.first("first_name") }}</div>
                                         </div>
 
                                         <div class="form-group">
@@ -44,16 +41,13 @@
                                                 id="last_name"
                                                 aria-describedby="last_name"
                                                 placeholder="Last Name..."
-                                                :class="{ 'is-invalid': submitted && $v.user.last_name.$error }"
+                                                v-validate="'required'"
+                                                :class="{ 'is-invalid': submitted && errors.has('last_name') }"
                                             />
                                             <div
-                                                v-if="submitted && $v.user.last_name.$error"
+                                                v-if="submitted && errors.has('last_name')"
                                                 class="invalid-feedback"
-                                            >
-                                                <span
-                                                    v-if="!$v.user.last_name.required"
-                                                >Last name is required</span>
-                                            </div>
+                                            >{{ errors.first("last_name") }}</div>
                                         </div>
 
                                         <div class="form-group">
@@ -65,17 +59,13 @@
                                                 id="email"
                                                 aria-describedby="email"
                                                 placeholder="Enter Email Address..."
-                                                :class="{ 'is-invalid': submitted && $v.user.email.$error }"
+                                                v-validate="'required|email'"
+                                                :class="{ 'is-invalid': submitted && errors.has('email') }"
                                             />
                                             <div
-                                                v-if="submitted && $v.user.email.$error"
+                                                v-if="submitted && errors.has('email')"
                                                 class="invalid-feedback"
-                                            >
-                                                <span
-                                                    v-if="!$v.user.email.required"
-                                                >Email is required</span>
-                                                <span v-if="!$v.user.email.email">Email is invalid</span>
-                                            </div>
+                                            >{{ errors.first("email") }}</div>
                                         </div>
 
                                         <div class="form-group">
@@ -86,19 +76,14 @@
                                                 class="form-control form-control-user"
                                                 id="password"
                                                 placeholder="Password"
-                                                :class="{ 'is-invalid': submitted && $v.user.password.$error }"
+                                                v-validate="{ required: true, min: 6 }"
+                                                ref="password"
+                                                :class="{ 'is-invalid': submitted && errors.has('password') }"
                                             />
                                             <div
-                                                v-if="submitted && $v.user.password.$error"
+                                                v-if="submitted && errors.has('password')"
                                                 class="invalid-feedback"
-                                            >
-                                                <span
-                                                    v-if="!$v.user.password.required"
-                                                >Password is required</span>
-                                                <span
-                                                    v-if="!$v.user.password.minLength"
-                                                >Password must be at least 6 characters</span>
-                                            </div>
+                                            >{{ errors.first("password") }}</div>
                                         </div>
 
                                         <div class="form-group">
@@ -109,25 +94,16 @@
                                                 class="form-control form-control-user"
                                                 id="confrim_password"
                                                 placeholder="Confirm Password"
-                                                :class="{ 'is-invalid': submitted && $v.user.confrim_password.$error }"
+                                                v-validate="'required|confirmed:password'"
+                                                :class="{ 'is-invalid': submitted && errors.has('confrim_password') }"
                                             />
                                             <div
-                                                v-if="submitted && $v.user.confrim_password.$error"
+                                                v-if="submitted && errors.has('confrim_password')"
                                                 class="invalid-feedback"
-                                            >
-                                                <span
-                                                    v-if="!$v.user.confrim_password.required"
-                                                >Confirm password is required</span>
-                                                <span
-                                                    v-if="!$v.user.confirm_password.sameAsPassword"
-                                                >Passwords must match</span>
-                                            </div>
+                                            >{{ errors.first("confrim_password") }}</div>
                                         </div>
 
-                                        <button
-                                            class="btn btn-info btn-user btn-block"
-                                            @click="submit"
-                                        >Submit</button>
+                                        <button class="btn btn-info btn-user btn-block">Submit</button>
                                     </form>
                                 </div>
                             </div>
@@ -155,25 +131,18 @@ export default {
             submitted: false
         };
     },
-    validations: {
-        user: {
-            first_name: { required },
-            last_name: { required },
-            email: { required, email },
-            password: { required, minLength: minLength(6) },
-            confrim_password: {
-                required,
-                sameAsPassword: sameAs("user.password")
-            }
-        }
-    },
     methods: {
         submit(e) {
             e.preventDefault();
             this.submitted = true;
-            // stop here if form is invalid
-            this.$v.$touch();
-            console.log("test");
+            this.$validator.validate().then(valid => {
+                if (valid) {
+                    this.$store
+                        .dispatch("auth/register", { data: this.user })
+                        .then(res => console.log(res))
+                        .catch(err => console.log(err));
+                }
+            });
         }
     }
 };
