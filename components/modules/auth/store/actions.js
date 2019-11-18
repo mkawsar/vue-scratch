@@ -54,5 +54,24 @@ export default {
 			// 		console.log(err);
 			// 	})
 		});
+	},
+
+	register({ commit }, user) {
+		return new Promise((resolve, reject) => {
+			const url = process.env.ENDPOINT + 'api/v1/register';
+			axios.post(url, {
+				first_name: user.data.first_name,
+				last_name: user.data.last_name,
+				email: user.data.email,
+				password: user.data.password,
+				role_id: 2
+			})
+				.then(res => {
+					resolve(res);
+				})
+				.catch(err => {
+					reject(err);
+				})
+		});
 	}
 }
