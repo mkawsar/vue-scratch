@@ -70,7 +70,11 @@ export default {
     mounted() {
         this.$store
             .dispatch("userStore/profile")
-            .then(res => (this.user = res))
+            .then(res => {
+                if (res.status == "200") {
+                    this.user = res.user;
+                }
+            })
             .catch(err => {
                 this.$toastr.e(err.data.message, "Failed");
                 localStorage.clear();

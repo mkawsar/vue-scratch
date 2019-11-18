@@ -19,6 +19,6 @@ export default {
 		});
 	},
 	profileUpdate({ commit, state }, user) {
-		console.log(this.state.user.token)
+		console.log(this.state.token)
 	}
 }

@@ -127,10 +127,17 @@ export default {
                 email: this.user.email,
                 password: this.user.password
             };
-            this.$store
-                .dispatch("auth/login", { data })
-                .then(() => this.$router.push("/"))
-                .catch(err => this.$toastr.e(err, "Failed"));
+            if (this.user.email != "") {
+                this.$store
+                    .dispatch("auth/login", { data })
+                    .then(() => this.$router.push("/"))
+                    .catch(err => this.$toastr.e(err, "Failed"));
+            } else {
+                this.$toastr.e(
+                    "Email and password field are required!",
+                    "Failed"
+                );
+            }
         }
     }
 };
