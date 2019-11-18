@@ -105,6 +105,13 @@
 
                                         <button class="btn btn-info btn-user btn-block">Submit</button>
                                     </form>
+                                    <hr />
+                                    <div class="text-center">
+                                        <router-link
+                                            :to="{name: 'login'}"
+                                            class="small"
+                                        >Back to Login</router-link>
+                                    </div>
                                 </div>
                             </div>
                         </div>

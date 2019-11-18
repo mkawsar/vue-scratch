@@ -43,6 +43,7 @@
                                         id="email"
                                         v-model="user.email"
                                         placeholder="Email"
+                                        readonly
                                     />
                                 </div>
                             </div>
@@ -84,9 +85,16 @@ export default {
     methods: {
         update(e) {
             e.preventDefault();
-            this.$store.dispatch("userStore/profileUpdate", {
-                data: this.user
-            });
+            this.$store
+                .dispatch("userStore/profileUpdate", {
+                    data: this.user
+                })
+                .then(res => {
+                    this.$toastr.s(res.data.message, "Success");
+                })
+                .catch(err => {
+                    console.log(err);
+                });
         }
     }
 };

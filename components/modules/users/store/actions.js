@@ -3,7 +3,7 @@ export default {
 	profile({ commit }) {
 		return new Promise((resolve, reject) => {
 			let url = process.env.ENDPOINT + 'api/v1/user';
-			let token = this.state.token;
+			let token = localStorage.getItem('jwt');
 
 			axios.get(url, {
 				headers: {
@@ -19,6 +19,23 @@ export default {
 		});
 	},
 	profileUpdate({ commit, state }, user) {
-		console.log(this.state.token)
+		return new Promise((resolve, reject) => {
+			const url = process.env.ENDPOINT + 'api/v1/user/profile/update';
+			const token = localStorage.getItem('jwt');
+			axios.put(url, {
+				first_name: user.data.first_name,
+				last_name: user.data.last_name
+			}, {
+				headers: {
+					'Authorization': `Bearer ${token}`
+				}
+			})
+				.then(res => {
+					resolve(res);
+				})
+				.catch(err => {
+					reject(err);
+				})
+		})
 	}
 }
