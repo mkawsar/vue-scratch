@@ -212,10 +212,12 @@
                     aria-haspopup="true"
                     aria-expanded="false"
                 >
-                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{user.first_name}}</span>
+                    <span
+                        class="mr-2 d-none d-lg-inline text-gray-600 small"
+                    >{{ this.$store.state.user.first_name }}</span>
                     <img
                         class="img-profile rounded-circle"
-                        :src="'https://ui-avatars.com/api/?name=' + user.first_name + '&w=196&h=196'"
+                        :src="'https://ui-avatars.com/api/?name=' + this.$store.state.user.first_name + '&w=196&h=196'"
                     />
                 </a>
                 <!-- Dropdown - User Information -->
@@ -254,15 +256,6 @@
 <script>
 export default {
     name: "Top",
-    data() {
-        return {
-            user: {}
-        };
-    },
-    mounted() {
-        let userItem = localStorage.getItem("user");
-        this.user = JSON.parse(userItem);
-    },
     methods: {
         logout(e) {
             e.preventDefault();

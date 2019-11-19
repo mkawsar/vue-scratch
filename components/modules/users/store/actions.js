@@ -18,7 +18,7 @@ export default {
 				})
 		});
 	},
-	profileUpdate({ commit, state }, user) {
+	profileUpdate(state, user) {
 		return new Promise((resolve, reject) => {
 			const url = process.env.ENDPOINT + 'api/v1/user/profile/update';
 			const token = localStorage.getItem('jwt');

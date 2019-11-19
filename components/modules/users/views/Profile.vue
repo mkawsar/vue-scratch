@@ -75,6 +75,14 @@ export default {
                 if (res.status == "200") {
                     this.user = res.user;
                 }
+                if (res.status == "Token is Expired") {
+                    this.$toastr.e(
+                        "Token is Expired. Login again please!",
+                        "Failed"
+                    );
+                    localStorage.clear();
+                    this.$router.push("/login");
+                }
             })
             .catch(err => {
                 this.$toastr.e(err.data.message, "Failed");

@@ -5,7 +5,7 @@
             <div class="sidebar-brand-icon rotate-n-15">
                 <i class="fas fa-laugh-wink"></i>
             </div>
-            <div class="sidebar-brand-text mx-3">{{user.first_name}}</div>
+            <div class="sidebar-brand-text mx-3">{{ this.$store.state.user.first_name }}</div>
         </a>
 
         <!-- Divider -->
@@ -38,15 +38,6 @@
 
 <script>
 export default {
-    name: "Left",
-    data() {
-        return {
-            user: {}
-        };
-    },
-    mounted() {
-        let userItem = localStorage.getItem("user");
-        this.user = JSON.parse(userItem);
-    }
+    name: "Left"
 };
 </script>
