@@ -13,7 +13,7 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                     </div>
-                                    <form class="user">
+                                    <form class="user" @submit.prevent="login">
                                         <div class="form-group">
                                             <input
                                                 type="email"
@@ -23,17 +23,13 @@
                                                 id="exampleInputEmail"
                                                 aria-describedby="emailHelp"
                                                 placeholder="Enter Email Address..."
-                                                :class="{ 'is-invalid': submitted && $v.user.email.$error }"
+                                                v-validate="'required|email'"
+                                                :class="{ 'is-invalid': submitted && errors.has('email') }"
                                             />
                                             <div
-                                                v-if="submitted && $v.user.email.$error"
+                                                v-if="submitted && errors.has('email')"
                                                 class="invalid-feedback"
-                                            >
-                                                <span
-                                                    v-if="!$v.user.email.required"
-                                                >Email is required</span>
-                                                <span v-if="!$v.user.email.email">Email is invalid</span>
-                                            </div>
+                                            >{{ errors.first("email") }}</div>
                                         </div>
                                         <div class="form-group">
                                             <input
@@ -43,19 +39,14 @@
                                                 class="form-control form-control-user"
                                                 id="exampleInputPassword"
                                                 placeholder="Password"
-                                                :class="{ 'is-invalid': submitted && $v.user.password.$error }"
+                                                v-validate="{ required: true, min: 6 }"
+                                                ref="password"
+                                                :class="{ 'is-invalid': submitted && errors.has('password') }"
                                             />
                                             <div
-                                                v-if="submitted && $v.user.password.$error"
+                                                v-if="submitted && errors.has('password')"
                                                 class="invalid-feedback"
-                                            >
-                                                <span
-                                                    v-if="!$v.user.password.required"
-                                                >Password is required</span>
-                                                <span
-                                                    v-if="!$v.user.password.minLength"
-                                                >Password must be at least 6 characters</span>
-                                            </div>
+                                            >{{ errors.first("password") }}</div>
                                         </div>
                                         <!-- <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
@@ -70,10 +61,7 @@
                                                 >Remember Me</label>
                                             </div>
                                         </div>-->
-                                        <button
-                                            class="btn btn-primary btn-user btn-block"
-                                            @click="login"
-                                        >Login</button>
+                                        <button class="btn btn-primary btn-user btn-block">Login</button>
                                     </form>
                                     <hr />
                                     <!-- <div class="text-center">
@@ -99,7 +87,6 @@
 </template>
 
 <script>
-import { required, email, minLength, sameAs } from "vuelidate/lib/validators";
 export default {
     name: "Login",
     data() {
@@ -111,33 +98,23 @@ export default {
             submitted: false
         };
     },
-    validations: {
-        user: {
-            email: { required, email },
-            password: { required, minLength: minLength(6) }
-        }
-    },
     methods: {
         login(e) {
             e.preventDefault();
             this.submitted = true;
-            // stop here if form is invalid
-            this.$v.$touch();
             let data = {
                 email: this.user.email,
                 password: this.user.password
             };
-            if (this.user.email != "") {
-                this.$store
-                    .dispatch("auth/login", { data })
-                    .then(() => this.$router.push("/"))
-                    .catch(err => this.$toastr.e(err, "Failed"));
-            } else {
-                this.$toastr.e(
-                    "Email and password field are required!",
-                    "Failed"
-                );
-            }
+
+            this.$validator.validate().then(valid => {
+                if (valid) {
+                    this.$store
+                        .dispatch("auth/login", { data })
+                        .then(() => this.$router.push("/"))
+                        .catch(err => this.$toastr.e(err, "Failed"));
+                }
+            });
         }
     }
 };
